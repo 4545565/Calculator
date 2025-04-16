@@ -1,10 +1,12 @@
 package com.example.calculator
 
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.DisplayMetrics
 import android.view.MotionEvent
@@ -18,11 +20,13 @@ import net.objecthunter.exp4j.ExpressionBuilder
 import java.util.EmptyStackException
 import androidx.gridlayout.widget.GridLayout
 import android.view.WindowManager
+import android.os.VibratorManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var inputText: TextView
     private lateinit var historyText: TextView
     private var isNewInput = false
+    
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,27 +85,52 @@ class MainActivity : AppCompatActivity() {
         )
 
         findViewById<GridLayout>(R.id.buttonGrid).apply {
-            forEachChild { view ->
-                (view as? Button)?.apply {
-                    background = ContextCompat.getDrawable(context, R.drawable.button_background)
-                    setTextColor(Color.WHITE)
-                    
-                    setOnTouchListener { v, event ->
-                        when (event.action) {
-                            MotionEvent.ACTION_DOWN -> {
-                                v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_scale))
-                                (getSystemService(VIBRATOR_SERVICE) as? Vibrator)?.vibrate(50)
+    forEachChild { view ->
+        (view as? Button)?.apply {
+            background = ContextCompat.getDrawable(context, R.drawable.button_background)
+            setTextColor(Color.WHITE)
+            
+            setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_scale))
+                        
+                        // 使用 Android 12+ 的触觉反馈 API
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                            val vibrator = vibratorManager.defaultVibrator
+                            
+                            // 使用预定义的高品质触觉效果（推荐）
+                            if (vibrator.areEffectsSupported(VibrationEffect.EFFECT_CLICK)[0] == Vibrator.VIBRATION_EFFECT_SUPPORT_YES) {
+                                vibrator.vibrate(
+                                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK)
+                                )
                             }
-                            MotionEvent.ACTION_UP -> {
-                                v.clearAnimation()
-                                handleButtonClick(text.toString())
+                            // 或使用自定义波形（精细控制振幅和频率）
+                            else {
+                                val waveform = VibrationEffect.createWaveform(
+                                    longArrayOf(0, 30),  // 延迟 0ms → 震动 30ms
+                                    intArrayOf(0, 255),  // 初始振幅 0 → 最大强度 255
+                                    -1                   // 不重复
+                                )
+                                vibrator.vibrate(waveform)
                             }
+                        } else {
+                            // 旧版本兼容方案（简单短震动）
+                            @Suppress("DEPRECATION")
+                            (context.getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(50)
                         }
-                        true
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        v.clearAnimation()
+                        handleButtonClick(text.toString())
                     }
                 }
+                true
             }
         }
+    }
+}
     }
 
     private fun handleButtonClick(value: String) {
