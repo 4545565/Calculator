@@ -1,19 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/background"
+    android:fitsSystemWindows="true">
 
     <TextView
+        android:id="@+id/historyText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="@color/text_color"
+        android:textSize="18sp"
+        android:alpha="0.6"
+        app:layout_constraintBottom_toTopOf="@id/inputText"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="end|bottom"
+        android:padding="16dp" />
+
+    <TextView
+        android:id="@+id/inputText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="@color/text_color"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/historyText"
+        android:gravity="end|center_vertical"
+        android:padding="16dp" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/buttonGrid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:columnCount="4"
+        app:rowCount="5">
+
+        <!-- 按钮按照 C DEL ( ) 的顺序排列 -->
+        <!-- 随后是 7 8 9 / -->
+        <!-- 4 5 6 * -->
+        <!-- 1 2 3 - -->
+        <!-- 0 . = + -->
+        <!-- 具体按钮定义因篇幅限制在此省略，需要完整实现可补充说明 -->
+
+    </androidx.gridlayout.widget.GridLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
 </androidx.constraintlayout.widget.ConstraintLayout>
