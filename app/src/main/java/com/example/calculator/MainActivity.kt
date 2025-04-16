@@ -1,8 +1,12 @@
 package com.example.calculator
 
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Vibrator
+import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -13,6 +17,7 @@ import android.widget.TextView
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.util.EmptyStackException
 import androidx.gridlayout.widget.GridLayout
+import android.view.WindowManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var inputText: TextView
@@ -22,14 +27,48 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        // 检测屏幕比例并控制旋转
+        checkScreenRatioAndLockRotation()
 
         inputText = findViewById(R.id.inputText)
-        historyText = findViewById(R.id.historyText).apply{
-            movementMethod = ScrollingMovementMethod()  // 启用滚动
-        }
+        historyText = findViewById(R.id.historyText)
         
         setupNumberPad()
         window.statusBarColor = Color.TRANSPARENT
+    }
+
+    // 检测屏幕比例并锁定旋转
+    private fun checkScreenRatioAndLockRotation() {
+        val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+        val metrics = DisplayMetrics()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val display = display
+            display?.getRealMetrics(metrics)
+        } else {
+            windowManager.defaultDisplay.getRealMetrics(metrics)
+        }
+
+        val screenWidth = metrics.widthPixels.coerceAtLeast(metrics.heightPixels)
+        val screenHeight = metrics.widthPixels.coerceAtMost(metrics.heightPixels)
+        val aspectRatio = screenWidth.toFloat() / screenHeight.toFloat()
+
+        // 如果屏幕比例 > 16:9（即 1.777...），则锁定为当前方向
+        requestedOrientation = if (aspectRatio > 16.1f / 9f) {
+            when (resources.configuration.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                else -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }
+        } else {
+            // 恢复自动旋转
+            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+    }
+
+    // 监听屏幕旋转事件，重新检测比例
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        checkScreenRatioAndLockRotation()
     }
 
     private fun setupNumberPad() {
@@ -73,32 +112,6 @@ class MainActivity : AppCompatActivity() {
             else -> appendInput(value)  // 确保此时inputText已初始化
         }
     }
-
-    // 在appendInput中添加额外验证
-    // private fun appendInput(value: String) {
-    //     if (isNewInput) clearAll()
-        
-    //     val current = inputText.text.toString()
-        
-    //     // 添加额外验证规则
-    //     val invalidCases = when {
-    //         value == "." && current.contains(".") -> true
-    //         current.isEmpty() && value in ")/*+" -> true  // 禁止运算符开头
-    //         current.lastOrNull()!! in "+-*/" && value in "+-*/" -> true // 连续运算符
-    //         else -> false
-    //     }
-        
-    //     if (invalidCases) return
-        
-    //     inputText.text = buildString {
-    //         append(current)
-    //         // 自动补全括号
-    //         when {
-    //             value == "(" && current.count { it == '(' } > current.count { it == ')' } -> append(")")
-    //             else -> append(value)
-    //         }
-    //     }
-    // }
     private fun appendInput(value: String) {
         runOnUiThread {
             // 空安全检查
@@ -213,19 +226,3 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until childCount) action(getChildAt(i))
     }
 }
-
-// package com.example.calculator
-
-// import android.os.Bundle
-// import androidx.activity.enableEdgeToEdge
-// import androidx.appcompat.app.AppCompatActivity
-// import androidx.core.view.ViewCompat
-// import androidx.core.view.WindowInsetsCompat
-
-// class MainActivity : AppCompatActivity() {
-//     override fun onCreate(savedInstanceState: Bundle?) {
-//         super.onCreate(savedInstanceState)
-//         enableEdgeToEdge()
-//         setContentView(R.layout.activity_main)
-//     }
-// }
