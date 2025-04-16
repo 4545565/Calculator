@@ -8,20 +8,20 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.DisplayMetrics
-import android.view.MotionEvent
-import android.view.animation.AnimationUtils
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import android.view.View
-import android.widget.TextView
-import net.objecthunter.exp4j.ExpressionBuilder
-import java.util.EmptyStackException
-import androidx.gridlayout.widget.GridLayout
-import android.view.WindowManager
 import android.os.VibratorManager
 import android.text.method.ScrollingMovementMethod
+import android.util.DisplayMetrics
+import android.view.MotionEvent
+import android.view.View
+import android.view.WindowManager
+import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.gridlayout.widget.GridLayout
+import net.objecthunter.exp4j.ExpressionBuilder
+import java.util.EmptyStackException
 import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         inputText = findViewById(R.id.inputText)
         historyText = findViewById(R.id.historyText)
         historyText.movementMethod = ScrollingMovementMethod()
-        
+
         setupNumberPad()
         window.statusBarColor = Color.TRANSPARENT
     }
@@ -92,17 +92,23 @@ class MainActivity : AppCompatActivity() {
                 (view as? Button)?.apply {
                     background = ContextCompat.getDrawable(context, R.drawable.button_background)
                     setTextColor(Color.WHITE)
-                    
+
                     setOnTouchListener { v, event ->
                         when (event.action) {
                             MotionEvent.ACTION_DOWN -> {
-                                v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_scale))
-                                
+                                v.startAnimation(
+                                    AnimationUtils.loadAnimation(
+                                        context,
+                                        R.anim.button_scale
+                                    )
+                                )
+
                                 // 使用 Android 12+ 的触觉反馈 API
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                    val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                                    val vibratorManager =
+                                        context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
                                     val vibrator = vibratorManager.defaultVibrator
-                                    
+
                                     // 使用预定义的高品质触觉效果（推荐）
                                     if (vibrator.areEffectsSupported(VibrationEffect.EFFECT_CLICK)[0] == Vibrator.VIBRATION_EFFECT_SUPPORT_YES) {
                                         vibrator.vibrate(
@@ -121,9 +127,12 @@ class MainActivity : AppCompatActivity() {
                                 } else {
                                     // 旧版本兼容方案（简单短震动）
                                     @Suppress("DEPRECATION")
-                                    (context.getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(50)
+                                    (context.getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(
+                                        50
+                                    )
                                 }
                             }
+
                             MotionEvent.ACTION_UP -> {
                                 v.clearAnimation()
                                 handleButtonClick(text.toString())
@@ -134,24 +143,24 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        }
+    }
 
-        private fun handleButtonClick(value: String) {
-            when (value) {
-                "C" -> clearAll()
-                "DEL" -> deleteLastChar()
-                "=" -> calculateResult()
-                else -> appendInput(value)  // 确保此时inputText已初始化
-            }
+    private fun handleButtonClick(value: String) {
+        when (value) {
+            "C" -> clearAll()
+            "DEL" -> deleteLastChar()
+            "=" -> calculateResult()
+            else -> appendInput(value)  // 确保此时inputText已初始化
         }
-        
-        private fun appendInput(value: String) {
+    }
+
+    private fun appendInput(value: String) {
         // 如果当前显示的是计算结果，则清空输入框开始新表达式
         if (isResultDisplayed) {
             inputText.text = ""
             isResultDisplayed = false
         }
-        
+
         val current = inputText.text.toString()
         val newText = when {
             value == "." && current.contains(".") -> current
@@ -161,20 +170,22 @@ class MainActivity : AppCompatActivity() {
         }
         inputText.text = newText
     }
+
     private fun calculateResult() {
         try {
             val expression = inputText.text.toString()
             val result = evaluateExpression(expression)
-            
+
             // 将完整表达式和结果追加到历史记录
-            historyText.append("\n$expression=$result") 
-            
+            historyText.append("\n$expression=$result")
+
             // 自动滚动到历史记录底部
             historyText.post {
-                val scrollY = historyText.layout.getLineTop(historyText.lineCount) - historyText.height
+                val scrollY =
+                    historyText.layout.getLineTop(historyText.lineCount) - historyText.height
                 historyText.scrollTo(0, max(scrollY, 0))
             }
-            
+
             // 显示结果并标记状态
             inputText.text = result.toString()
             isResultDisplayed = true
@@ -211,11 +222,13 @@ class MainActivity : AppCompatActivity() {
             throw CalculationException("括号不匹配")
         }
     }
+
     private fun clearAll() {
         inputText.text = ""
         historyText.text = "" // 只有明确按清除键才会清空历史
         isResultDisplayed = false
     }
+
     private fun deleteLastChar() {
         val currentText = inputText.text.toString()
         if (currentText.isNotEmpty()) {
@@ -226,7 +239,7 @@ class MainActivity : AppCompatActivity() {
                 inputText.text = currentText.substring(0, newLength)
             }
         }
-        
+
         // 当输入被清空时重置状态
         if (inputText.text.isEmpty()) resetCalculatorState()
     }
@@ -239,6 +252,7 @@ class MainActivity : AppCompatActivity() {
             animate().translationY(0f).alpha(1f).setDuration(150).start()
         }
     }
+
     // 自定义异常类
     class CalculationException(message: String) : Exception(message)
 

@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- res/values/themes.xml -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?><!-- res/values/themes.xml -->
+<resources>
+
     <style name="Base.Theme.Calculator" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- 使用已存在的颜色资源 -->
         <item name="colorPrimary">@color/button_background</item>  <!-- 深灰色 -->

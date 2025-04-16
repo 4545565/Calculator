@@ -1,5 +1,6 @@
 <!-- res/values-night/themes.xml -->
 <resources>
+
     <style name="Base.Theme.Calculator" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- 深色模式使用相同颜色或调整 -->
         <item name="colorPrimary">@color/button_background</item>
