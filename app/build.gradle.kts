@@ -11,8 +11,8 @@ android {
         applicationId = "com.example.calculator"
         minSdk = 31
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 20250416
+        versionName = "1.4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
