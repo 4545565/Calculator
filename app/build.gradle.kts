@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.calculator"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.calculator"
-        minSdk = 35
-        targetSdk = 35
+        minSdk = 31
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -42,11 +42,11 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.gridlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("net.objecthunter:exp4j:0.4.8")  // 使用双引号和括号
-    implementation("androidx.gridlayout:gridlayout:1.0.0")
-    implementation("androidx.appcompat:appcompat:1.6.1") // 提供AppCompat控件
-    // implementation("com.google.android.material:material:1.11.0") // 提供Material组件
+    implementation(libs.exp4j)  // 使用双引号和括号
+    implementation(libs.androidx.gridlayout)
+    implementation(libs.androidx.appcompat.v161) // 提供AppCompat控件
 }
