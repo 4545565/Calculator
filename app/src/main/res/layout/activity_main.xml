@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -37,14 +38,274 @@
         app:layout_constraintTop_toBottomOf="@id/guideline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:columnCount="4"
-        app:rowCount="5">
+        app:rowCount="5"
+        android:padding="8dp"
+        android:background="@color/background">
 
-        <!-- 按钮按照 C DEL ( ) 的顺序排列 -->
-        <!-- 随后是 7 8 9 / -->
-        <!-- 4 5 6 * -->
-        <!-- 1 2 3 - -->
-        <!-- 0 . = + -->
-        <!-- 具体按钮定义因篇幅限制在此省略，需要完整实现可补充说明 -->
+        <!-- 第一行：C DEL ( ) -->
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="C"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btnDel"
+            android:text="DEL"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btnLeftParen"
+            android:text="("
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btnRightParen"
+            android:text=")"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <!-- 第二行：7 8 9 / -->
+        <Button
+            android:id="@+id/btn7"
+            android:text="7"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btn8"
+            android:text="8"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btn9"
+            android:text="9"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btnDivide"
+            android:text="/"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <!-- 第三行：4 5 6 * -->
+        <Button
+            android:id="@+id/btn4"
+            android:text="4"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btn5"
+            android:text="5"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btn6"
+            android:text="6"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btnMultiply"
+            android:text="*"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <!-- 第四行：1 2 3 - -->
+        <Button
+            android:id="@+id/btn1"
+            android:text="1"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btn2"
+            android:text="2"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btn3"
+            android:text="3"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btnSubtract"
+            android:text="-"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <!-- 第五行：0 . = + -->
+        <Button
+            android:id="@+id/btn0"
+            android:text="0"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btnDot"
+            android:text="."
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btnEqual"
+            android:text="="
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:text="+"
+            android:textSize="24sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_color" />
 
     </androidx.gridlayout.widget.GridLayout>
 

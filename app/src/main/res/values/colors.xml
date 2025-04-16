@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#FF000000</color>
-    <color name="button_background">#FF333333</color>
-    <color name="text_color">#FFFFFFFF</color>
+    <color name="background">#FFFFFFFF</color>
+    <color name="button_background">#FFCCCCCC</color>
+    <color name="text_color">#FF000000</color>
 </resources>
