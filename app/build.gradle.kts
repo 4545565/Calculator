@@ -16,16 +16,16 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    // buildTypes {
-    //     release {
-    //         isMinifyEnabled = false
-    //         proguardFiles(
-    //             getDefaultProguardFile("proguard-android-optimize.txt"),
-    //             "proguard-rules.pro"
-    //         )
-    //     }
-    // }
+    buildTypes {
+        getByName("release") { // 显式获取 release 配置
+            isShrinkResources = true
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
     compileOptions {
          sourceCompatibility = JavaVersion.VERSION_11
          targetCompatibility = JavaVersion.VERSION_11
