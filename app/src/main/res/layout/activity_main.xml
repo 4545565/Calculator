@@ -12,13 +12,13 @@
         android:id="@+id/historyText"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:textColor="@color/text_color"
         android:textSize="18sp"
         android:alpha="0.6"
-        app:layout_constraintBottom_toTopOf="@id/inputText"
-        app:layout_constraintTop_toTopOf="parent"
         android:gravity="end|bottom"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@id/inputText"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/inputText"
