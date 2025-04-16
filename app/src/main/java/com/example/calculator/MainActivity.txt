@@ -161,13 +161,10 @@ class MainActivity : AppCompatActivity() {
 
             // 显示结果并标记状态
             inputText.text = result.toString()
+            isResultDisplayed = true
         } catch (e: Exception) {
-            inputText.text = when (e) {
-                is CalculationException -> e.message ?: "Error"
-                else -> "Error"
-            }
-        } finally {
-            isResultDisplayed = true  // 关键修改：将错误状态视为结果显示状态
+            inputText.text = "Error"
+            isResultDisplayed = false
         }
     }
 
