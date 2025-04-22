@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -15,6 +16,7 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
@@ -23,6 +25,7 @@ import java.util.EmptyStackException
 import kotlin.math.max
 import kotlin.math.min
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
     private lateinit var inputText: TextView
     private lateinit var historyText: TextView
@@ -49,6 +52,8 @@ class MainActivity : AppCompatActivity() {
 
     object DeviceUtils {
         // 增强版设备检测（API 31+）
+        @SuppressLint("ObsoleteSdkInt")
+        @RequiresApi(Build.VERSION_CODES.M)
         fun isPhoneEnhanced(context: Context): Boolean {
             val metrics = context.getSystemService(WindowManager::class.java).currentWindowMetrics
             val density = context.resources.displayMetrics.density
@@ -60,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupNumberPad() {
-        val buttons = arrayOf(
+        arrayOf(
             "C", "DEL", "(", ")",
             "7", "8", "9", "/",
             "4", "5", "6", "*",
@@ -86,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
                                 // 使用 Android 12+ 的触觉反馈 API
                                 val vibratorManager =
-                                    context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                                    context.getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
                                 val vibrator = vibratorManager.defaultVibrator
 
                                 // 使用预定义的高品质触觉效果（推荐）
@@ -190,10 +195,10 @@ class MainActivity : AppCompatActivity() {
                 "Division by zero!" -> throw CalculationException("除以零错误")
                 else -> throw CalculationException("算术错误")
             }
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             // 处理无效表达式
             throw CalculationException("无效表达式")
-        } catch (e: EmptyStackException) {
+        } catch (_: EmptyStackException) {
             // 处理括号不匹配等栈异常
             throw CalculationException("括号不匹配")
         }
